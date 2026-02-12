@@ -73,8 +73,8 @@
 
     <h1 id="question">Will you be my valentine?</h1>
 
-    <!-- Teddy bear image -->
-    <img src="teddy.jpg" alt="Teddy Bear with Heart">
+    <!-- Teddy bear image with version query to prevent caching -->
+    <img src="teddy.jpg?v=2" alt="Teddy Bear with Heart">
 
     <div>
         <button id="yesBtn" onclick="sayYes()">Yes</button>
@@ -86,7 +86,7 @@
 
         function sayYes() {
             document.getElementById("question").innerText = "YAYYYY ❤️ I knew you'd say yes!";
-            createHearts(30); // Make hearts float when yes clicked
+            createHearts(30);
         }
 
         function sayNo() {
@@ -115,8 +115,6 @@
                 heart.style.animationDuration = (3 + Math.random() * 3) + "s";
                 heart.style.backgroundColor = randomHeartColor();
                 document.body.appendChild(heart);
-
-                // Remove heart after animation
                 setTimeout(() => heart.remove(), 5000);
             }
         }
@@ -126,7 +124,13 @@
             return colors[Math.floor(Math.random() * colors.length)];
         }
 
-        // Optional: Make random hearts float continuously
+        // Add a random query to reload page on each visit (busts cache)
+        if (!window.location.search.includes("v=")) {
+            const randomVersion = Math.floor(Math.random() * 1000);
+            window.location.search = "?v=" + randomVersion;
+        }
+
+        // Continuous floating hearts in the background
         setInterval(() => createHearts(1), 500);
     </script>
 
